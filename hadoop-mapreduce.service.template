@@ -1,0 +1,37 @@
+[Unit]
+Description=The Hadoop DAEMON daemon
+After=network.target
+After=NetworkManager.target
+
+[Service]
+Type=forking
+EnvironmentFile=-/etc/sysconfig/hadoop-mapreduce
+EnvironmentFile=-/etc/sysconfig/hadoop-DAEMON
+ExecStart=/usr/sbin/mr-jobhistory-daemon.sh start DAEMON
+ExecStop=/usr/sbin/mr-jobhistory-daemon.sh stop DAEMON
+User=mapred
+Group=hadoop
+PIDFile=/run/hadoop-mapreduce/hadoop-mapred-DAEMON.pid
+LimitNOFILE=32768
+LimitNPROC=65536
+
+#######################################
+# Note: Below are cgroup options
+#######################################
+#Slice=
+#CPUAccounting=true
+#CPUShares=1024
+
+#MemoryAccounting=true
+#TBD: MemoryLimit=bytes, MemorySoftLimit=bytes
+
+#BlockIOAccounting=true
+#BlockIOWeight=??
+#BlockIODeviceWeight=??
+#TBD: BlockIOReadBandwidth=bytes, BlockIOWriteBandwidth=bytes
+
+#DeviceAllow=
+#DevicePolicy=auto|closed|strict
+
+[Install]
+WantedBy=multi-user.target
